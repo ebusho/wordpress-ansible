@@ -9,3 +9,6 @@
     - install-common-packages
     - configure-firewall
     - geerlingguy.nginx
+    - geerlingguy.repo-remi
+    - geerlingguy.php-versions
+    - geerlingguy.php
