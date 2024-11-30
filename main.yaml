@@ -8,3 +8,4 @@
     - update-system
     - install-common-packages
     - configure-firewall
+    - geerlingguy.nginx
