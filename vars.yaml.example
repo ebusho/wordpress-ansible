@@ -1,0 +1,3 @@
+remote_sudo_user:
+  name: admin
+  authorized_key: ""

@@ -1,0 +1,7 @@
+- hosts: wp_hosts
+  vars_files:
+    - vars.yaml
+  become: true
+  roles:
+    - configure-admin-user
+    - configure-sshd
