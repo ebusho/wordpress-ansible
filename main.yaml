@@ -1,0 +1,10 @@
+- hosts: wp_hosts
+  vars_files:
+    - vars.yaml
+  become: true
+  gather_facts: true
+  remote_user: "{{ remote_sudo_user.name }}"
+  roles:
+    - update-system
+    - install-common-packages
+    - configure-firewall

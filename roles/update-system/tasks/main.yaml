@@ -1,0 +1,12 @@
+- name: Upgrade all packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+
+- name: Check if reboot is required
+  ansible.builtin.shell:
+    cmd: "needs-restarting -r -s"
+  register: needs_restarting
+  changed_when: needs_restarting.rc == 1
+  failed_when: false
+  notify: reboot if needed

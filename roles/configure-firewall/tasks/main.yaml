@@ -1,0 +1,92 @@
+# Configuring UFW, since it's easier to manage
+- name: Ensure firewalld is stopped and disabled
+  ansible.builtin.systemd_service:
+    name: firewalld
+    state: stopped
+    enabled: false
+
+# Also disables UFW if it's already enabled
+- name: Reset UFW rules to default
+  ufw:
+    state: reset
+
+- name: Ensure UFW service is started
+  ansible.builtin.systemd_service:
+    name: ufw
+    state: started
+    enabled: true
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+
+- name: Get public IP of current machine
+  ansible.builtin.uri:
+    url: https://ifconfig.me/ip
+    method: GET
+    status_code: 200
+    return_content: true
+  become: false
+  delegate_to: localhost
+  register: fetch_ip_address_result
+
+- ansible.builtin.set_fact:
+    executor_host_ip: "{{ fetch_ip_address_result.content }}"
+
+- name: Grant SSH access to current IP
+  ufw:
+    rule: allow
+    direction: in
+    port: "22"
+    proto: tcp
+    from_ip: "{{ executor_host_ip }}"
+
+- name: Delete default OpenSSH rule
+  ufw:
+    rule: allow
+    name: OpenSSH
+    delete: true
+
+- name: Delete default SSH rule
+  ufw:
+    rule: allow
+    name: SSH
+    delete: true
+
+- name: Delete default mDNS rule (IPv4)
+  ufw:
+    rule: allow
+    dest: "224.0.0.251"
+    name: "mDNS"
+    delete: true
+
+- name: Delete default mDNS rule (IPv6)
+  ufw:
+    rule: allow
+    dest: "ff02::fb"
+    name: "mDNS"
+    delete: true
+
+- name: Allow HTTP traffic
+  ufw:
+    rule: allow
+    direction: in
+    port: "80"
+    proto: tcp
+
+- name: Allow HTTPS traffic
+  ufw:
+    rule: allow
+    direction: in
+    port: "443"
+    proto: tcp
+
+- name: Allow outgoing traffic
+  ufw:
+    default: allow
+    direction: outgoing
+
+- name: Disallow incoming traffic
+  ufw:
+    default: deny
+    direction: incoming

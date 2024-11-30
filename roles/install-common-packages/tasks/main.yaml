@@ -1,0 +1,14 @@
+---
+- name: Install packages
+  ansible.builtin.dnf:
+    name:
+      - curl
+      - fail2ban
+      - git
+      - htop
+      - iotop
+      - ncdu
+      - ufw
+      - unzip
+      - zip
+    state: latest
