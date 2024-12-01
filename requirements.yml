@@ -1,5 +1,6 @@
 ---
 roles:
+- name: geerlingguy.certbot
 - name: geerlingguy.mysql
 - name: geerlingguy.nginx
 - name: geerlingguy.php

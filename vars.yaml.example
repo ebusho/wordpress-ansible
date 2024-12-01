@@ -8,17 +8,61 @@ remote_web_user:
 
 domain:
   url: ""
-
   wp:
     title: ""
     admin_user: ""
     admin_password: ""
     admin_email: ""
 
+# Role variables: geerlingguy.certbot
+certbot_admin_email: "{{ domain.wp.admin_email }}"
+certbot_create_if_missing: true
+certbot_create_standalone_stop_services: []
+certbot_create_extra_args: ~
+certbot_certs:
+  - domains:
+    - "{{ domain.url }}"
+
 # Role variables: geerlingguy.nginx
 nginx_listen_ipv6: false
 nginx_server_tokens: "off"
 nginx_remove_default_vhost: true
+nginx_vhosts:
+  - listen: "443 ssl"
+    server_name: "{{ domain.url }}"
+    root: "/var/www/{{ domain.url }}"
+    index: "index.php index.html index.htm"
+    state: "present"
+    extra_parameters: |
+      http2  on;
+
+      ssl_certificate     /etc/letsencrypt/live/{{ domain.url }}/fullchain.pem;
+      ssl_certificate_key /etc/letsencrypt/live/{{ domain.url }}/privkey.pem;
+      ssl_protocols       TLSv1.1 TLSv1.2;
+      ssl_ciphers         HIGH:!aNULL:!MD5;
+
+      location / {
+        try_files $uri $uri/ /index.php?$args;
+      }
+      location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+      }
+      location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+        expires max;
+        log_not_found off;
+      }
+      location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+      }
+      location ~ \.php$ {
+        #include snippets/fastcgi-php.conf;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+      }
 
 # Role variables: geerlingguy.php-versions
 php_version: "8.3"
@@ -29,7 +73,7 @@ php_packages_extra:
   - php-mysqlnd
 php_webserver_daemon: "nginx"
 php_enable_php_fpm: true
-php_fpm_pool_user: "nginx"
+php_fpm_pool_user: "{{ remote_web_user.name }}"
 php_fpm_pool_group: "nginx"
 php_date_timezone: "UTC"
 php_upload_max_filesize: "512M"
