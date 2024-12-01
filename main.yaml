@@ -1,6 +1,9 @@
 - hosts: wp_hosts
   vars_files:
     - vars.yaml
+  vars:
+    username: "{{ remote_web_user.name }}"
+    authorized_key: "{{ remote_web_user.authorized_key }}"
   become: true
   gather_facts: true
   remote_user: "{{ remote_sudo_user.name }}"
@@ -8,6 +11,7 @@
     - update-system
     - install-common-packages
     - configure-firewall
+    - create-user
     - geerlingguy.nginx
     - geerlingguy.repo-remi
     - geerlingguy.php-versions
