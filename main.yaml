@@ -4,6 +4,9 @@
   vars:
     username: "{{ remote_web_user.name }}"
     authorized_key: "{{ remote_web_user.authorized_key }}"
+
+    wordpress_path: "/var/www/{{ domain.url }}"
+    execution_group: nginx
   become: true
   gather_facts: true
   remote_user: "{{ remote_sudo_user.name }}"
@@ -18,3 +21,4 @@
     - geerlingguy.php
     - geerlingguy.mysql
     - install-wp-cli
+    - install-wordpress

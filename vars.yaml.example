@@ -6,6 +6,15 @@ remote_web_user:
   name: wordpress
   authorized_key: ""
 
+domain:
+  url: ""
+
+  wp:
+    title: ""
+    admin_user: ""
+    admin_password: ""
+    admin_email: ""
+
 # Role variables: geerlingguy.nginx
 nginx_listen_ipv6: false
 nginx_server_tokens: "off"
