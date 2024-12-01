@@ -1,0 +1,11 @@
+- name: Crete user
+  ansible.builtin.user:
+    name: "{{ username }}"
+    shell: /bin/bash
+    create_home: true
+
+- name: Add authorized key
+  ansible.posix.authorized_key:
+    user: "{{ username }}"
+    key: "{{ authorized_key }}"
+    state: present

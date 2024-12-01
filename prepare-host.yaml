@@ -1,7 +1,11 @@
 - hosts: wp_hosts
   vars_files:
     - vars.yaml
+  vars:
+    username: "{{ remote_sudo_user.name }}"
+    authorized_key: "{{ remote_sudo_user.authorized_key }}"
   become: true
   roles:
-    - configure-admin-user
+    - create-user
+    - configure-admin-access
     - configure-sshd

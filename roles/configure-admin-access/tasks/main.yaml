@@ -3,23 +3,14 @@
     name: wheel
     state: present
 
-- name: Add remote sudo user 
+- name: Add user to wheel group
   ansible.builtin.user:
-    name: "{{ remote_sudo_user.name }}"
-    shell: /bin/bash
+    name: "{{ username }}"
     groups: wheel
-    append: false
-    create_home: true
 
 - name: Allow paswordless login
   ansible.builtin.lineinfile:
     dest: "/etc/sudoers"
     regexp: "^%wheel"
     line: "%wheel ALL=(ALL) NOPASSWD: ALL"
-    state: present
-
-- name: Add authorized key
-  ansible.posix.authorized_key:
-    user: "{{ remote_sudo_user.name }}"
-    key: "{{ remote_sudo_user.authorized_key }}"
     state: present
