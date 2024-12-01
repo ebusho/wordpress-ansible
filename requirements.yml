@@ -1,5 +1,6 @@
 ---
 roles:
+- name: geerlingguy.mysql
 - name: geerlingguy.nginx
 - name: geerlingguy.php
 - name: geerlingguy.php-versions

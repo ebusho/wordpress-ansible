@@ -12,3 +12,4 @@
     - geerlingguy.repo-remi
     - geerlingguy.php-versions
     - geerlingguy.php
+    - geerlingguy.mysql
