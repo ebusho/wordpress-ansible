@@ -1,0 +1,11 @@
+- name: Install WP-CLI
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    dest: /usr/local/bin/wp
+    mode: '0755'
+
+- name: Add WP-CLI bash completion
+  ansible.builtin.get_url:
+    url: https://github.com/wp-cli/wp-cli/raw/main/utils/wp-completion.bash
+    dest: /etc/bash_completion.d
+    mode: '0644'
