@@ -16,6 +16,7 @@ domain:
 
 # Role variables: geerlingguy.certbot
 certbot_admin_email: "{{ domain.wp.admin_email }}"
+certbot_auto_renew_user: root
 certbot_create_if_missing: true
 certbot_create_standalone_stop_services: []
 certbot_create_extra_args: ~
