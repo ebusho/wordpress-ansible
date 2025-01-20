@@ -14,6 +14,10 @@ domain:
     admin_password: ""
     admin_email: ""
 
+# Role variables: geerlingguy.swap
+swap_file_size_mb: '2048'
+swap_swappiness: '10'
+
 # Role variables: geerlingguy.certbot
 certbot_admin_email: "{{ domain.wp.admin_email }}"
 certbot_auto_renew_user: root
@@ -77,9 +81,15 @@ php_webserver_daemon: "nginx"
 php_enable_php_fpm: true
 php_fpm_pool_user: "{{ remote_web_user.name }}"
 php_fpm_pool_group: "nginx"
+php_fpm_pm_max_children: 20
+php_fpm_pm_start_servers: 5
+php_fpm_pm_min_spare_servers: 2
+php_fpm_pm_max_spare_servers: 10
 php_date_timezone: "UTC"
 php_upload_max_filesize: "512M"
+php_post_max_size: "100M"
 php_memory_limit: "512M"
+php_max_input_vars: "5000"
 
 # Role variables: geerlingguy.mysql
 mysql_enablerepo: "remi"
@@ -96,3 +106,27 @@ mysql_users:
   host: "localhost"
   password: ~
   priv: "wordpress.*:ALL"
+
+# Memory optimizations for ~2GB of RAM
+mysql_key_buffer_size: "32M"
+mysql_max_allowed_packet: "64M"
+mysql_table_open_cache: "1024"
+mysql_sort_buffer_size: "2M"
+mysql_read_buffer_size: "1M"
+mysql_read_rnd_buffer_size: "2M"
+mysql_myisam_sort_buffer_size: "8M"
+# mysql_thread_cache_size: "16"
+# mysql_query_cache_type: "0"
+# mysql_query_cache_size: "0"
+mysql_max_connections: "75"
+mysql_tmp_table_size: "32M"
+mysql_max_heap_table_size: "32M"
+mysql_group_concat_max_len: "2048"
+mysql_join_buffer_size: "1M"
+
+mysql_innodb_file_per_table: "1"
+mysql_innodb_buffer_pool_size: "1024M"
+mysql_innodb_log_file_size: "256M"
+mysql_innodb_log_buffer_size: "16M"
+mysql_innodb_flush_log_at_trx_commit: "2"
+mysql_innodb_lock_wait_timeout: "50"

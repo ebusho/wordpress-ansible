@@ -7,3 +7,4 @@ roles:
 - name: geerlingguy.php-versions
 - name: geerlingguy.redis
 - name: geerlingguy.repo-remi
+- name: geerlingguy.swap
