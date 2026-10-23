@@ -103,7 +103,7 @@ nginx_vhosts:
       }
 
 # Role variables: geerlingguy.php-versions
-php_version: "8.3"
+php_version: "8.5"
 
 # Role variables: geerlingguy.php
 # 'latest' (not the role's default 'present') so bumping php_version
