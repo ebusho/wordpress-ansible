@@ -67,19 +67,17 @@
     name: "mDNS"
     delete: true
 
-- name: Allow HTTP traffic
+# Site is behind Cloudflare's proxy, so direct traffic is never legitimate
+- name: Allow HTTP(S) traffic from Cloudflare IPs only
   ufw:
     rule: allow
     direction: in
-    port: "80"
+    port: "{{ item[1] }}"
     proto: tcp
-
-- name: Allow HTTPS traffic
-  ufw:
-    rule: allow
-    direction: in
-    port: "443"
-    proto: tcp
+    from_ip: "{{ item[0] }}"
+  with_nested:
+    - "{{ cloudflare_ips }}"
+    - ["80", "443"]
 
 - name: Allow outgoing traffic
   ufw:

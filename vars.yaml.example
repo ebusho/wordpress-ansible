@@ -28,6 +28,26 @@ certbot_certs:
   - domains:
     - "{{ domain.url }}"
 
+# https://www.cloudflare.com/ips/ — HTTP(S) is allowed only from these
+# ranges (see configure-firewall), and nginx uses them to restore real
+# visitor IPs for logs and fail2ban.
+cloudflare_ips:
+  - 173.245.48.0/20
+  - 103.21.244.0/22
+  - 103.22.200.0/22
+  - 103.31.4.0/22
+  - 141.101.64.0/18
+  - 108.162.192.0/18
+  - 190.93.240.0/20
+  - 188.114.96.0/20
+  - 197.234.240.0/22
+  - 198.41.128.0/17
+  - 162.158.0.0/15
+  - 104.16.0.0/13
+  - 104.24.0.0/14
+  - 172.64.0.0/13
+  - 131.0.72.0/22
+
 # Role variables: geerlingguy.nginx
 nginx_listen_ipv6: false
 nginx_server_tokens: "off"
@@ -45,6 +65,11 @@ nginx_vhosts:
       ssl_certificate_key /etc/letsencrypt/live/{{ domain.url }}/privkey.pem;
       ssl_protocols       TLSv1.1 TLSv1.2;
       ssl_ciphers         HIGH:!aNULL:!MD5;
+
+      {% for ip in cloudflare_ips %}
+      set_real_ip_from {{ ip }};
+      {% endfor %}
+      real_ip_header CF-Connecting-IP;
 
       location / {
         try_files $uri $uri/ /index.php?$args;
