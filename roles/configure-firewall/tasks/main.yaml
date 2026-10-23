@@ -76,7 +76,7 @@
     proto: tcp
     from_ip: "{{ item[0] }}"
   with_nested:
-    - "{{ cloudflare_ips }}"
+    - "{{ cloudflare_ips + cloudflare_ips_v6 | default([]) }}"
     - ["80", "443"]
 
 - name: Allow outgoing traffic
