@@ -6,6 +6,10 @@
 ansible-galaxy install -r requirements.yml
 ```
 
+Re-run with `--force` to upgrade roles to their latest versions. If a
+major version jumped, skim that role's changelog before running against
+the live server — majors can rename variables or rework templates.
+
 ## Initial preparation
 
 VPS hosts are usually provided with root username and password. Before installing anything, create a dedicated sudo user and disable root login.

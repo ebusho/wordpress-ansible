@@ -1,18 +1,10 @@
 ---
 roles:
 - name: geerlingguy.certbot
-  version: "5.5.0"
 - name: geerlingguy.mysql
-  version: "6.5.0"
 - name: geerlingguy.nginx
-  version: "3.3.1"
 - name: geerlingguy.php
-  version: "6.1.0"
 - name: geerlingguy.php-versions
-  version: "7.2.0"
 - name: geerlingguy.redis
-  version: "2.0.0"
 - name: geerlingguy.repo-remi
-  version: "2.1.0"
 - name: geerlingguy.swap
-  version: "2.2.0"
