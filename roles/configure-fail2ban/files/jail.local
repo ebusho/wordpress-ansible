@@ -1,0 +1,20 @@
+[DEFAULT]
+bantime  = 1h
+findtime = 10m
+maxretry = 5
+
+# SSH is already restricted to the provisioning machine's IP by UFW;
+# this is just a failsafe in case the firewall ever opens up.
+[sshd]
+enabled = true
+backend = systemd
+
+# Behind Cloudflare's proxy, firewall-level bans are useless (packets
+# arrive from Cloudflare edge IPs), so offenders are denied at nginx
+# level instead. Requires the real-ip config from the nginx vhost.
+[wordpress]
+enabled = true
+filter  = wordpress
+logpath = /var/log/nginx/access.log
+port    = http,https
+action  = nginx-deny[file="/etc/nginx/conf.d/fail2ban-deny.conf"]

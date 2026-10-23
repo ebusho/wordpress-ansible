@@ -14,6 +14,7 @@
     - { role: update-system, tags: [system] }
     - { role: install-common-packages, tags: [packages] }
     - { role: configure-firewall, tags: [firewall] }
+    - { role: configure-fail2ban, tags: [fail2ban] }
     - { role: create-user, tags: [user] }
     - { role: geerlingguy.swap, tags: [swap] }
     - { role: geerlingguy.certbot, tags: [certbot] }

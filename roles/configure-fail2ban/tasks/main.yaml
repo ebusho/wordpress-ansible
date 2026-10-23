@@ -1,0 +1,16 @@
+# Package itself is installed by install-common-packages
+- name: Configure fail2ban jails
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+  loop:
+    - { src: jail.local, dest: /etc/fail2ban/jail.local }
+    - { src: wordpress.conf, dest: /etc/fail2ban/filter.d/wordpress.conf }
+  notify: restart fail2ban
+
+- name: Ensure fail2ban is started and enabled
+  ansible.builtin.systemd_service:
+    name: fail2ban
+    state: started
+    enabled: true
