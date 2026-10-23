@@ -11,17 +11,17 @@
   gather_facts: true
   remote_user: "{{ remote_sudo_user.name }}"
   roles:
-    - update-system
-    - install-common-packages
-    - configure-firewall
-    - create-user
-    - geerlingguy.swap
-    - geerlingguy.certbot
-    - geerlingguy.nginx
-    - geerlingguy.repo-remi
-    - geerlingguy.php-versions
-    - geerlingguy.php
-    - geerlingguy.mysql
-    - geerlingguy.redis
-    - install-wp-cli
-    - install-wordpress
+    - { role: update-system, tags: [system] }
+    - { role: install-common-packages, tags: [packages] }
+    - { role: configure-firewall, tags: [firewall] }
+    - { role: create-user, tags: [user] }
+    - { role: geerlingguy.swap, tags: [swap] }
+    - { role: geerlingguy.certbot, tags: [certbot] }
+    - { role: geerlingguy.nginx, tags: [nginx] }
+    - { role: geerlingguy.repo-remi, tags: [php, mysql] }
+    - { role: geerlingguy.php-versions, tags: [php] }
+    - { role: geerlingguy.php, tags: [php] }
+    - { role: geerlingguy.mysql, tags: [mysql] }
+    - { role: geerlingguy.redis, tags: [redis] }
+    - { role: install-wp-cli, tags: [wp-cli] }
+    - { role: install-wordpress, tags: [wordpress] }

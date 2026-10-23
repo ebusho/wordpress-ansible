@@ -22,3 +22,15 @@ ansible-playbook --user root --ask-pass prepare-host.yaml
 ```shell
 ansible-playbook main.yaml
 ```
+
+## Work on a live server
+
+A full re-run won't wipe the site (WordPress install steps are skipped when
+the site already exists), but it upgrades every package and may reboot.
+Roles are tagged so you can run only what you need:
+
+```shell
+ansible-playbook main.yaml --list-tags
+ansible-playbook main.yaml --tags system        # package upgrades
+ansible-playbook main.yaml --tags php,mysql     # combine tags
+```
