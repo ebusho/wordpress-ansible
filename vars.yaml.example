@@ -98,6 +98,9 @@ nginx_vhosts:
 php_version: "8.3"
 
 # Role variables: geerlingguy.php
+# 'latest' (not the role's default 'present') so bumping php_version
+# actually upgrades the packages, and patch releases arrive via --tags php
+php_packages_state: latest
 php_enablerepo: "remi"
 php_packages_extra:
   - php-mysqlnd

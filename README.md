@@ -34,3 +34,15 @@ ansible-playbook main.yaml --list-tags
 ansible-playbook main.yaml --tags system        # package upgrades
 ansible-playbook main.yaml --tags php,mysql     # combine tags
 ```
+
+## Upgrading PHP
+
+1. Set `php_version` in `vars.yaml` (e.g. `"8.3"`).
+2. Run `ansible-playbook main.yaml --tags php` — this switches the remi
+   module stream and upgrades the packages.
+3. Verify on the server: `php -v`, `systemctl status php-fpm`, then load
+   the site.
+
+Snapshot the VM first — the module stream switch is the one operation
+here that can go sideways. `dnf module list php` shows the current
+stream.
