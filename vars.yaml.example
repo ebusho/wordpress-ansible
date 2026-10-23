@@ -81,10 +81,10 @@ php_webserver_daemon: "nginx"
 php_enable_php_fpm: true
 php_fpm_pool_user: "{{ remote_web_user.name }}"
 php_fpm_pool_group: "nginx"
-php_fpm_pm_max_children: 20
-php_fpm_pm_start_servers: 5
-php_fpm_pm_min_spare_servers: 2
-php_fpm_pm_max_spare_servers: 10
+php_fpm_pm_max_children: 6
+php_fpm_pm_start_servers: 2
+php_fpm_pm_min_spare_servers: 1
+php_fpm_pm_max_spare_servers: 3
 php_date_timezone: "UTC"
 php_upload_max_filesize: "512M"
 php_post_max_size: "100M"
@@ -125,7 +125,7 @@ mysql_group_concat_max_len: "2048"
 mysql_join_buffer_size: "1M"
 
 mysql_innodb_file_per_table: "1"
-mysql_innodb_buffer_pool_size: "1024M"
+mysql_innodb_buffer_pool_size: "384M"
 mysql_innodb_log_file_size: "256M"
 mysql_innodb_log_buffer_size: "16M"
 mysql_innodb_flush_log_at_trx_commit: "2"
