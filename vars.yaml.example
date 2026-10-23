@@ -131,8 +131,11 @@ php_max_input_vars: "5000"
 mysql_enablerepo: "remi"
 mysql_bind_address: '127.0.0.1'
 mysql_root_password: ~
-mysql_root_password_update: true
-mysql_user_password_update: true
+# Passwords are set when the user/db is created; 'false' keeps re-runs
+# from rotating them under a live site. mysql_root_password must still
+# match reality: the role authenticates with it via /root/.my.cnf.
+mysql_root_password_update: false
+mysql_user_password_update: false
 mysql_databases:
 - name: wordpress
   encoding: utf8mb4
