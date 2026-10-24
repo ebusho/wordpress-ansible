@@ -56,6 +56,11 @@ cloudflare_ips_v6:
   - 2a06:98c0::/29
   - 2c0f:f248::/32
 
+# Account credentials for fail2ban's edge bans (wordpress jail).
+# Global API Key: CF dashboard -> My Profile -> API Tokens -> Global API Key
+cloudflare_account_email: ""
+cloudflare_global_api_key: ""
+
 # Role variables: geerlingguy.nginx
 nginx_listen_ipv6: false
 nginx_server_tokens: "off"

@@ -1,12 +1,27 @@
 # Package itself is installed by install-common-packages
 - name: Configure fail2ban jails
+  ansible.builtin.template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    # contains the Cloudflare API key
+    mode: "0640"
+  notify: restart fail2ban
+
+- name: Install wordpress filter and cloudflare action
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "0644"
   loop:
-    - { src: jail.local, dest: /etc/fail2ban/jail.local }
     - { src: wordpress.conf, dest: /etc/fail2ban/filter.d/wordpress.conf }
+    - { src: cloudflare.conf, dest: /etc/fail2ban/action.d/cloudflare.conf }
+  notify: restart fail2ban
+
+# Leftover from the superseded nginx-deny attempt; never actually created
+- name: Remove nginx-deny file
+  ansible.builtin.file:
+    path: /etc/nginx/conf.d/fail2ban-deny.conf
+    state: absent
   notify: restart fail2ban
 
 - name: Ensure fail2ban is started and enabled
