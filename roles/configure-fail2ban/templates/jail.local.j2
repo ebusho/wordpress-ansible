@@ -11,11 +11,15 @@ backend = systemd
 
 # The VPS firewall never sees visitor IPs behind Cloudflare's proxy, so
 # bans are pushed to Cloudflare's edge as zone-level IP access rules.
-# bantime -1 = permanent; unban via CF dashboard (Security -> Security
-# rules -> IP access rules) or: fail2ban-client set wordpress unbanip <ip>
+# Bans escalate per repeat offender: 1d, 2d, 4d, 1w, 2w, capped at 4w.
+# On expiry the edge rule is removed, so the CF rule list can't fill up.
+# Unban earlier: fail2ban-client set wordpress unbanip <ip>
 [wordpress]
 enabled = true
 filter  = wordpress
 logpath = /var/log/nginx/access.log
-bantime = -1
+bantime  = 1d
+bantime.increment = true
+bantime.factor    = 2
+bantime.maxtime   = 4w
 action  = cloudflare-token[cftoken="{{ cloudflare_api_token }}", cfzone="{{ cloudflare_zone_id }}"]
