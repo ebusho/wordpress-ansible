@@ -14,7 +14,7 @@
     mode: "0644"
   loop:
     - { src: wordpress.conf, dest: /etc/fail2ban/filter.d/wordpress.conf }
-    - { src: cloudflare.conf, dest: /etc/fail2ban/action.d/cloudflare.conf }
+    - { src: cloudflare-token.conf, dest: /etc/fail2ban/action.d/cloudflare-token.conf }
   notify: restart fail2ban
 
 # Leftover from the superseded nginx-deny attempt; never actually created

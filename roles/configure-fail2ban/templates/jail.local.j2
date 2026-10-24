@@ -10,12 +10,12 @@ enabled = true
 backend = systemd
 
 # The VPS firewall never sees visitor IPs behind Cloudflare's proxy, so
-# bans are pushed to Cloudflare's edge as account-wide IP access rules.
-# bantime -1 = permanent; unban via CF dashboard (Security -> WAF ->
-# Tools -> IP Access Rules) or: fail2ban-client set wordpress unbanip <ip>
+# bans are pushed to Cloudflare's edge as zone-level IP access rules.
+# bantime -1 = permanent; unban via CF dashboard (Security -> Security
+# rules -> IP access rules) or: fail2ban-client set wordpress unbanip <ip>
 [wordpress]
 enabled = true
 filter  = wordpress
 logpath = /var/log/nginx/access.log
 bantime = -1
-action  = cloudflare[cfuser="{{ cloudflare_account_email }}", cftoken="{{ cloudflare_global_api_key }}"]
+action  = cloudflare-token[cftoken="{{ cloudflare_api_token }}", cfzone="{{ cloudflare_zone_id }}"]

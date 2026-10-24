@@ -56,10 +56,13 @@ cloudflare_ips_v6:
   - 2a06:98c0::/29
   - 2c0f:f248::/32
 
-# Account credentials for fail2ban's edge bans (wordpress jail).
-# Global API Key: CF dashboard -> My Profile -> API Tokens -> Global API Key
-cloudflare_account_email: ""
-cloudflare_global_api_key: ""
+# Scoped API token for fail2ban's edge bans (wordpress jail).
+# CF dashboard -> My Profile -> API Tokens -> Create Token:
+#   Permissions:    Zone -> Firewall Services -> Edit
+#   Zone Resources: Include -> Specific zone -> your domain
+# Zone ID: domain's Overview page -> API section in the right sidebar
+cloudflare_api_token: ""
+cloudflare_zone_id: ""
 
 # Role variables: geerlingguy.nginx
 nginx_listen_ipv6: false
