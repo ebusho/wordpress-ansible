@@ -10,6 +10,16 @@
   become: true
   gather_facts: true
   remote_user: "{{ remote_sudo_user.name }}"
+  pre_tasks:
+    # dnf refuses to switch an enabled module stream (php:remi-X -> remi-Y)
+    # unless this option is set; php-versions' module enable task needs it
+    - name: Allow dnf to switch module streams
+      ansible.builtin.lineinfile:
+        path: /etc/dnf/dnf.conf
+        regexp: "^#?module_stream_switch"
+        line: "module_stream_switch=True"
+        insertafter: '^\[main\]'
+      tags: [php]
   roles:
     - { role: update-system, tags: [system] }
     - { role: install-common-packages, tags: [packages] }
